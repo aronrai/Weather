@@ -1,27 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather</title>
-  <link rel="icon" type="image/x-icon" href="images/icon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link href="https://fonts.googleapis.com/css2?family=Aladin&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            user-select: none;
+            cursor: pointer;
+        }
+        body {
+            box-sizing: border-box;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #999;
+            overflow: hidden;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border: none;
+            border-radius: 11px;
+            box-shadow: 2px 2px 7px black;
+        }
+        h1,
+        h2 {
+            font-family: 'Aladin', cursive;
+            font-weight: normal;
+            text-shadow: 1px 1px 3px black;
+        }
+        #button,
+        #input {
+            font-size: 0.7rem;
+            background: transparent;
+            padding: 3px 11px;
+        }
+        #input {
+            font-family: cursive;
+            border: none;
+            border-bottom: 2px solid black;
+            border-radius: 11px;
+        }
+        #input:focus {
+            outline: none;
+        }
+        #button {
+            font-family: cursive;
+            text-shadow: 0px 0px 1px black;
+            border: none;
+            border-radius: 11px;
+            box-shadow: 1px 1px 3px black;
+            transition: all 0.3s ease-in-out;
+        }
+        #button:active {
+            text-shadow: 0px 0px 3px white;
+            border-radius: 7px;
+        }
+        #weather-disp {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        #weather-disp p,
+        #footer {
+            font-size: 0.7rem;
+            font-family: cursive;
+        }
+        @media(max-width: 600px) {
+            #container {
+                border: none;
+                box-shadow: none;
+            }
+            #footer {
+                position: fixed;
+                bottom: 10px;
+            }
+            #weather-disp p,
+            #footer {
+                font-size: 0.9rem;
+                font-family: cursive;
+            }
+            #button,
+            #input {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="weather">
-    <h1>Weather?</h1>
-    <input type="text" id="cityInput" placeholder="Enter City Name" maxlength="30">
-    <button onclick="getWeather()">Get Weather</button>
-    <div id="weatherResult">
-      <!-- Current Weather info -->
+    <div id="container">
+        <h1>Weather?</h1>
+        <input type="text" id="input" placeholder="Enter city name" value="Hell">
+        <button type="button" id="button">Get Weather</button>
+        <div id="weather-disp">
+            <h2 id="city"></h2>
+            <p id="temperature"></p>
+            <p id="weather"></p>
+            <img src="" alt="weather image" id="img">
+            <p id="humidity"></p>
+            <footer id="footer"></footer>
+        </div>
     </div>
-    <div id="forecast">
-      <!-- 5-Day Forecast -->
-    </div>
-  </div>
-  <div class="loading" id="loading" style="display: none;">Loading...</div>
-
-  <script src="script.js"></script>
+    <script>
+        const apiKey = "078f46f1ee0d8cd68232acdf882cc3ea";
+        const fetchFunc = () => {
+            let city = document.querySelector("#input").value;
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=en&appid=${apiKey}`)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    else {
+                        throw new Error(`There was an Error: ${response.status}.`);
+                    }
+                })
+                .then((data) => {
+                    console.log(data);
+                    document.querySelector("#city").innerHTML = `${data.name}, ${data.sys.country}`;
+                    document.querySelector("#temperature").innerHTML = `Temperature: ${data.main.temp}°C`;
+                    document.querySelector("#weather").innerHTML = `Weather: ${data.weather[0].description}`;
+                    document.querySelector("#img").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+                    document.querySelector("#humidity").innerHTML = `Humidity: ${data.main.humidity}%`;
+                    document.querySelector("#footer").innerHTML = "Made with &#9825; by Hate ;";
+                })
+                .catch((error) => console.error(error));
+        }
+        fetchFunc();
+        let button = document.querySelector("#button");
+        button.addEventListener("click", fetchFunc);
+        button.addEventListener("click", () => {
+            new Audio("./audio/button-click.mp3").play();
+        })
+    </script>
 </body>
 </html>
