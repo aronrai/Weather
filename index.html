@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
     <link href="https://fonts.googleapis.com/css2?family=Aladin&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <style>
         * {
             padding: 0;
@@ -27,7 +27,7 @@
             justify-content: center;
             align-items: center;
             gap: 20px;
-            padding: 20px;
+            padding: 20px 40px;
             border: none;
             border-radius: 11px;
             box-shadow: 2px 2px 7px black;
@@ -39,14 +39,14 @@
             user-select: none;
         }
         h1 {
-            font-size: 2.7rem;
+            font-size: 2rem;
         }
         h2 {
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
         #button, #input {
             font-size: 0.7rem;
-            font-family: cursive;
+            font-family: 'Roboto', sans-serif;
             background: transparent;
             padding: 3px 11px;
         }
@@ -63,12 +63,11 @@
             border: none;
             border-radius: 11px;
             box-shadow: 1px 1px 3px black;
-            cursor: pointer;
             transition: all 0.3s ease-in-out;
         }
         #button:active {
             text-shadow: 0px 0px 3px white;
-            border-radius: 7px;
+            border-radius: 0;
         }
         #weather-disp {
             display: flex;
@@ -79,7 +78,7 @@
         }
         #weather-disp p, #footer {
             font-size: 0.7rem;
-            font-family: cursive;
+            font-family: 'Roboto', sans-serif;
             user-select: none;
         }
         @media(max-width: 600px) {
@@ -103,7 +102,7 @@
 <body>
     <div id="container">
         <h1>Weather?</h1>
-        <input type="text" id="input" placeholder="Enter city name" value="Hell">
+        <input type="text" id="input" placeholder="Enter city name" autocomplete="off" value="Hell">
         <button type="button" id="button">Get Weather</button>
         <div id="weather-disp">
             <h2 id="city"></h2>
@@ -134,7 +133,7 @@
                     document.querySelector("#weather").innerHTML = `Weather: ${data.weather[0].description}`;
                     document.querySelector("#img").src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
                     document.querySelector("#humidity").innerHTML = `Humidity: ${data.main.humidity}%`;
-                    document.querySelector("#footer").innerHTML = "Made with &#9825; by Hate ;";
+                    document.querySelector("#footer").innerHTML = "Made with <b>&#9825;</b> by Hate ;";
                 })
                 .catch((error) => console.error(error));
         }
