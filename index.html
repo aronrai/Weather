@@ -117,7 +117,7 @@
         const apiKey = "078f46f1ee0d8cd68232acdf882cc3ea";
         const fetchFunc = () => {
             let city = document.querySelector("#input").value;
-            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=en&appid=${apiKey}`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.trim()}&units=metric&lang=en&appid=${apiKey}`)
                 .then((response) => {
                     if (response.ok) {
                         return response.json();
@@ -140,9 +140,6 @@
         fetchFunc();
         let button = document.querySelector("#button");
         button.addEventListener("click", fetchFunc);
-        button.addEventListener("click", () => {
-            new Audio("./audio/button-click.mp3").play();
-        })
     </script>
 </body>
 </html>
